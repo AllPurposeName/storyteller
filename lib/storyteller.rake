@@ -6,8 +6,9 @@ require 'ostruct'
 
 class Issuer
   attr_reader :session
-  def initialize
+  def initialize(stories_path)
     @session = Capybara::Session.new(:poltergeist)
+    @stories = parse_stories(stories_path)
     run
   end
 
@@ -16,6 +17,10 @@ class Issuer
   end
 
   private
+
+  def parse_stories(file_path)
+    YAML.load_file(file_path)
+  end
 
   def login
     session.visit(url.login)
@@ -37,4 +42,4 @@ class Issuer
   end
 end
 
-Issuer.new
+Issuer.new("./test/support/test_stories.yml")

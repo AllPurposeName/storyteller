@@ -1,0 +1,7 @@
+repositoryName: https://github.com/AllPurposeName/test-stories
+stories:
+  Title: Visitor can view items
+  Background: I have several items and each of them has a title, description, price, and image
+  Body: As a visitor
+    When I visit "/items"
+    I can see all existing items
