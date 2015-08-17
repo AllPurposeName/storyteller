@@ -2,6 +2,7 @@ repositoryName: https://github.com/AllPurposeName/test-stories
 stories:
   issueOne:
     title: Visitor can view items
+    label: Feature
     body: >
       Background: I have several items and each of them has a title, description, price, and image
 
@@ -13,6 +14,7 @@ stories:
       I can see all existing items
   issueTwo:
     title: Create Wireframes for Most Important Views
+    label: enchancement
     body: Think about what you think the workflow should be on the site. Which of those views is most important?
 
       In addition to the home page wireframe, create wireframes for the next two most important pages.

@@ -5,12 +5,24 @@ require 'YAML'
 require 'ostruct'
 
 class Issuer
-  attr_reader :session, :stories, :repository
+  attr_reader :session,
+              :stories,
+              :repository,
+              :labels
+
+  COLORS = {0 => "#207de5",
+            1 => "#009800",
+            2 => "#fbca04",
+            3 => "#eb6420"}
+
   def initialize(stories_path)
+    @labels = []
     @session = Capybara::Session.new(:poltergeist)
     @repository, @stories = parse_stories(stories_path)
     run
   end
+
+  private
 
   def run
     login
@@ -18,16 +30,24 @@ class Issuer
     final_message
   end
 
-  private
-
-  def final_message
-    puts "Issues finished posting."
-  end
-
   def post_issues
     puts "Posting issues...\n"
-    stories.each do |_, issue|
+    stories.each do |_, label, issue|
+      add_label(label)
       post_issue(issue)
+    end
+  end
+
+  def add_label(label)
+    unless labels.include?(label)
+      session.visit(url.new_label)
+      session.save_and_open_page
+      session.click_button("New label")
+      session.fill_in("label[name]", with: label)
+      session.fill_in("label[color]", with: COLORS[labels.count])
+      session.click_button("Create label")
+      labels << label
+      puts "Created label: #{label}.\n"
     end
   end
 
@@ -36,7 +56,7 @@ class Issuer
     session.fill_in("issue[title]", with: issue["title"])
     session.fill_in("issue[body]", with: issue["body"])
     session.click_button("Submit new issue")
-    puts "Issue #{issue['title']} posted.\n"
+    puts "Posted issue #{issue['title']}.\n"
   end
 
   def parse_stories(file_path)
@@ -54,13 +74,18 @@ class Issuer
     puts "Logged in as #{env.GITHUB_USERNAME}.\n"
   end
 
+  def final_message
+    puts "Issues finished posting."
+  end
+
   def domain
     "https://github.com"
   end
 
   def url
     OpenStruct.new(login: "#{domain}/login",
-                  new_issue: "#{domain}/#{repository}/issues/new")
+                   new_issue: "#{domain}/#{repository}/issues/new",
+                   new_label: "#{domain}/#{repository}/labels")
   end
 
   def env
