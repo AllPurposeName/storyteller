@@ -1,22 +1,23 @@
-repositoryName: https://github.com/AllPurposeName/test-stories
+repositories: https://github.com/AllPurposeName/test-stories, https://github.com/AllPurposeName/test-story
 stories:
   issueOne:
-    title: Visitor can view items
-    label: Feature
+    title: Admin can create items
+    label: Backlog, pertinent
     body: >
-      Background: I have several items and each of them has a title, description, price, and image
+      Background: I want a new item to need a category
 
+      As an admin
 
-      As a visitor
+      When I visit "/admin/items/new"
 
-      When I visit "/items"
-
-      I can see all existing items
+      I can see item creation stuff
   issueTwo:
-    title: Create Wireframes for Most Important Views
+    title: User can check cart out
     label: enchancement
-    body: Think about what you think the workflow should be on the site. Which of those views is most important?
+    body: As a user
 
-      In addition to the home page wireframe, create wireframes for the next two most important pages.
+      When I visit "/cart"
 
-      Examples might be A users' profile page, a product page, an admin dashboard etc...
+      And I click checkout
+
+      I should see my order
