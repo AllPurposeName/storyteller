@@ -1,4 +1,4 @@
-This is a script to add user stories to projects at the Turing School.
+This is a script to add user stories to projects at [The Turing School](http://www.turing.io).
 
 ### Usage
 
