@@ -5,6 +5,7 @@ task :storyteller, :file_path do |t, file_path|
   path = file_path[:file_path] || ARGV[1]
   if TaskHelper.exist?(path)
     ruby "./lib/storyteller.rb ./stories/#{path}.yml"
+    abort "Story #{path} ran successfully"
   else
     abort "Story #{path + ' ' if path}not found.\nPlease specify the story to use"
   end
